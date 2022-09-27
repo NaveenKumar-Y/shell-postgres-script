@@ -96,7 +96,31 @@ tcp6       0      0 ::1:5432                :::*                    LISTEN      
 unix  2      [ ACC ]     STREAM     LISTENING     24767    17799/postgres       /tmp/.s.PGSQL.5432
 ```
 
-![](images/database_table_output.png)  
-```
 
+```
+database name is demo_db
+table name is student_course
+CREATE DATABASE
+You are now connected to database "demo_db" as user "postgres".
+CREATE TABLE
+INSERT 0 8
+             List of relations
+ Schema |      Name      | Type  |  Owner   
+--------+----------------+-------+----------
+ public | student_course | table | postgres
+(1 row)
+
+ courseid | rollno | coursename 
+----------+--------+------------
+     1004 |      1 | java
+     1005 |      2 | sql
+     1005 |      3 | sql
+     1006 |      4 | linux
+     1004 |      5 | java
+     1007 |      9 | streamsets
+     1008 |     10 | kafka
+     1007 |     11 | streamsets
+(8 rows)
+
+created database demo_db and table student_course in it
 ```
