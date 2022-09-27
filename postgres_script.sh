@@ -55,7 +55,7 @@ ln -s /opt/PostgreSQL-14.5/bin/psql /usr/bin/psql
 # store password of user in a file
 echo $psqlPassword > /home/pSql_password.txt
 
-# read varialbes database name and table from the user
+# Read database name and table name from the console.
 echo "enter database name:"
 read database_name
 echo "enter table name:"
