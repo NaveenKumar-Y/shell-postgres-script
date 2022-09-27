@@ -8,14 +8,14 @@
 ## How to run
 - Add serviceaccount JSON file to the directory.
 - Download the postgres software in a bucket and give bucket location in the script file and run the script file "postgres_script.sh" with sudo privaliages.
-- Postgres server will be installed and started when the script get executed.
+- Postgres server will be installed and start running when the script get executed.
 - Enter sample database name and table name to be created in the Postgres server.
 
 ## Steps used in script file to install postgres:
 
-- Install gcloud sdk in the local machine by downloading latest sdk.
-- Unpack the files in the downloaded sdk file.
-- Run the "install.sh" file inside the "google-cloud.sdk" directory to install the sdk in the local system. 
+> - Install gcloud sdk in the local machine by downloading latest sdk.
+> - Unpack the files in the downloaded sdk file.
+> - Run the "install.sh" file inside the "google-cloud.sdk" directory to install the sdk in the local system. 
 
 ```
 # install google cloud sdk 
@@ -44,8 +44,8 @@ google-cloud-sdk-403.0.0-li 100%[==========================================>] 15
 
 Welcome to the Google Cloud CLI!
 ```
-- Authenticate into gcloud using service account and copy the postgres software from the bucket to present working directory.
-- Unpack the postgresql file.
+> - Authenticate into gcloud using service account and copy the postgres software from the bucket to present working directory.
+> - Unpack the postgresql file.
 ```
 # auth into gcloud account using service account
 gcloud auth activate-service-account tachyons-srv-acc@gcp-hum-tachyons.iam.gserviceaccount.com --key-file=./serviceaccount.json
