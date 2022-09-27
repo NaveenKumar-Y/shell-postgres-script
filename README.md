@@ -12,6 +12,7 @@
 - Enter sample database name and table name to be created in the Postgres server.
 
 ### Steps used in script file to install postgres:
+### Step 1:
 
 > - Install gcloud sdk in the local machine by downloading latest sdk.
 > - Unpack the files in the downloaded sdk file.
@@ -43,7 +44,7 @@ google-cloud-sdk-403.0.0-li 100%[==========================================>] 15
 
 Welcome to the Google Cloud CLI!
 ```
-### Step 1
+### Step 2
 > - Authenticate into gcloud using service account and copy the postgres software from the bucket to present working directory.
 > - Unpack the postgresql file.
 ```
@@ -64,7 +65,7 @@ Copying gs://postgresql_software/postgresql-14.5.tar.gz...
 / [1 files][ 27.6 MiB/ 27.6 MiB]                                                
 Operation completed over 1 objects/27.6 MiB.   
 ```
-### Step 2
+### Step 3
 > - Install the required packages for installing postgres.
 >- Declare variables for username and password for the user.
 >- By switching to the user, we can use the postgresql.
@@ -75,7 +76,7 @@ apt install build-essential gcc-multilib zlib1g-dev libreadline-dev -y
 psqlUser="postgres"
 psqlPassword="*****"
 ```
-### Step 3
+### Step 4
 >- Create a directory where you want to install postgres files and use prefix option with configure.
 ``` 
 # changing to postgres directory 
@@ -85,14 +86,14 @@ cd postgresql-14.5
 mkdir /opt/PostgreSQL-14.5/
 ./configure --prefix=/opt/PostgreSQL-14.5 --with-pgport=5432
 ```
-### Step 4
+### Step 5
 >- Build postgreSQL using following make command.
 >- After build process finishes, now install postgresql using following command.
 ``` 
 make 
 make install
 ```
-### Step 5
+### Step 6
 >- Add a user with password.
 >- Make a directory which acts as a database cluster and change own permissions to postgres user.
 ```   
@@ -103,7 +104,7 @@ echo "created user $psqlUser"
 mkdir -p /pgdatabase/data
 chown -R $psqlUser /pgdatabase/data
 ```
-### Step 6
+### Step 7
 >- Provide a symlink to psql in bin folder from installed directory, so that psql can be accessed from anywhere.
 >- Store the pSql password in a file, which later used to intialize DB.
 ``` 
@@ -113,7 +114,7 @@ ln -s /opt/PostgreSQL-14.5/bin/psql /usr/bin/psql
 # store password of user in a file
 echo $psqlPassword > /home/pSql_password.txt
 ```
-### Step 7
+### Step 8
 >- Read database name and table name from the console.
 ```
 echo "enter database name:"
@@ -128,7 +129,7 @@ demo_db
 enter table name:
 student_course
 ```
-### Step 8
+### Step 9
 >- Switch to postgres user and initialize the database.
 >- After switching to user HERE document was written to execute all the commands in the user shell.
 ``` 
@@ -161,7 +162,7 @@ syncing data to disk ... ok
 
 Success.
 ```
-### Step 9
+### Step 10
 >- Start the log file to start the server.
 ``` 
 > /opt/PostgreSQL-14.5/bin/pg_ctl -D /pgdatabase/data/ -l logfile start
@@ -171,7 +172,7 @@ Success.
 waiting for server to start.... done
 server started
 ```
-### Step 10
+### Step 11
 >- To check status of the postgres server use netstat command.
 ```  
 > netstat -apn |grep -i 5432
@@ -182,7 +183,7 @@ tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      
 tcp6       0      0 ::1:5432                :::*                    LISTEN      17799/postgres      
 unix  2      [ ACC ]     STREAM     LISTENING     24767    17799/postgres       /tmp/.s.PGSQL.5432
 ```
-### Step 11
+### Step 12
 >- Switch into psql terminal to run the sql queries to create database & a table in it.
 >- Another HERE document to run series of queries in the psql terminal.
 >- Create a database and connect to that database using **"\c"** psql command.
@@ -201,7 +202,7 @@ table name is student_course
 CREATE DATABASE
 You are now connected to database "demo_db" as user "postgres".
 ```
-### Step 12
+### Step 13
 >- Now create a table with data types and insert some data into the table.
 >- **"\d"** to display all the relations in the database.
 ```
@@ -220,7 +221,7 @@ INSERT 0 8
  public | student_course | table | postgres
 (1 row)
 ```
-### Step 13
+### Step 14
 >- Fetch the data from the created table and print the data.
 ```
 select * from $table;
