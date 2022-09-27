@@ -2,7 +2,7 @@
 
 ## Description:
 
- script to install postgresqldb by getting the software from the bucket and create a demo db and a table on it
+ Script to install postgresqldb by getting the software from the bucket and create a demo db and a table on it
 
 
 ## How to run
@@ -25,7 +25,6 @@ wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk
 tar -xzf google-cloud-sdk-403.0.0-linux-x86_64.tar.gz
 ./google-cloud-sdk/install.sh --usage-reporting false --command-completion true --quiet 
 ```
-
 #### Sample output:
 
 
@@ -44,6 +43,7 @@ google-cloud-sdk-403.0.0-li 100%[==========================================>] 15
 
 Welcome to the Google Cloud CLI!
 ```
+<br></br>
 > - Authenticate into gcloud using service account and copy the postgres software from the bucket to present working directory.
 > - Unpack the postgresql file.
 ```
@@ -64,9 +64,10 @@ Copying gs://postgresql_software/postgresql-14.5.tar.gz...
 / [1 files][ 27.6 MiB/ 27.6 MiB]                                                
 Operation completed over 1 objects/27.6 MiB.   
 ```
-- Install the required packages for installing postgres.
-- Declare variables for username and password for the user.
-- By switching to the user, we can use the postgresql.
+<br></br>
+> - Install the required packages for installing postgres.
+>- Declare variables for username and password for the user.
+>- By switching to the user, we can use the postgresql.
 ``` 
 apt install build-essential gcc-multilib zlib1g-dev libreadline-dev -y
 
@@ -74,7 +75,8 @@ apt install build-essential gcc-multilib zlib1g-dev libreadline-dev -y
 psqlUser="postgres"
 psqlPassword="*****"
 ```
-- Create a directory where you want to install postgres files and use prefix option with configure.
+<br></br>
+>- Create a directory where you want to install postgres files and use prefix option with configure.
 ``` 
 # changing to postgres directory 
 cd postgresql-14.5
@@ -83,14 +85,16 @@ cd postgresql-14.5
 mkdir /opt/PostgreSQL-14.5/
 ./configure --prefix=/opt/PostgreSQL-14.5 --with-pgport=5432
 ```
-- Build postgreSQL using following make command.
-- After build process finishes, now install postgresql using following command.
+<br></br>
+>- Build postgreSQL using following make command.
+>- After build process finishes, now install postgresql using following command.
 ``` 
 make 
 make install
 ```
-- Add a user with password.
-- Make a directory which acts as a database cluster and change own permissions to postgres user.
+<br></br>
+>- Add a user with password.
+>- Make a directory which acts as a database cluster and change own permissions to postgres user.
 ```   
 sudo useradd -md /home/postgres/ -p $psqlPassword $psqlUser
 
@@ -99,8 +103,9 @@ echo "created user $psqlUser"
 mkdir -p /pgdatabase/data
 chown -R $psqlUser /pgdatabase/data
 ```
-- Provide a symlink to psql in bin folder from installed directory, so that psql can be accessed from anywhere.
-- Store the pSql password in a file, which later used to intialize DB.
+<br></br>
+>- Provide a symlink to psql in bin folder from installed directory, so that psql can be accessed from anywhere.
+>- Store the pSql password in a file, which later used to intialize DB.
 ``` 
 # symlink to /usr/bin/psql from /opt
 ln -s /opt/PostgreSQL-14.5/bin/psql /usr/bin/psql
@@ -108,7 +113,8 @@ ln -s /opt/PostgreSQL-14.5/bin/psql /usr/bin/psql
 # store password of user in a file
 echo $psqlPassword > /home/pSql_password.txt
 ```
-- Read database name and table name from the console.
+<br></br>
+>- Read database name and table name from the console.
 ```
 echo "enter database name:"
 read database_name
@@ -122,9 +128,9 @@ demo_db
 enter table name:
 student_course
 ```
-
-- Switch to postgres user and initialize the database.
-- After switching to user HERE document was written to execute all the commands in the user shell.
+<br></br>
+>- Switch to postgres user and initialize the database.
+>- After switching to user HERE document was written to execute all the commands in the user shell.
 ``` 
 su $psqlUser <<EOF 
 
@@ -155,8 +161,8 @@ syncing data to disk ... ok
 
 Success.
 ```
-
-- Start the log file to start the server.
+<br></br>
+>- Start the log file to start the server.
 ``` 
 > /opt/PostgreSQL-14.5/bin/pg_ctl -D /pgdatabase/data/ -l logfile start
 ```
@@ -165,7 +171,8 @@ Success.
 waiting for server to start.... done
 server started
 ```
-- To check status of the postgres server use netstat command.
+<br></br>
+>- To check status of the postgres server use netstat command.
 ```  
 > netstat -apn |grep -i 5432
 ```
@@ -175,9 +182,10 @@ tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      
 tcp6       0      0 ::1:5432                :::*                    LISTEN      17799/postgres      
 unix  2      [ ACC ]     STREAM     LISTENING     24767    17799/postgres       /tmp/.s.PGSQL.5432
 ```
-- Switch into psql terminal to run the sql queries to create database & a table in it.
-- Another HERE document to run series of queries in the psql terminal.
-- Create a database and connect to that database using **"\c"** psql command.
+<br></br>
+>- Switch into psql terminal to run the sql queries to create database & a table in it.
+>- Another HERE document to run series of queries in the psql terminal.
+>- Create a database and connect to that database using **"\c"** psql command.
 ``` 
 echo "database name is $database_name"
 echo "table name is $table"
@@ -193,8 +201,9 @@ table name is student_course
 CREATE DATABASE
 You are now connected to database "demo_db" as user "postgres".
 ```
-- Now create a table with data types and insert some data into the table.
-- **"\d"** to display all the relations in the database.
+<br></br>
+>- Now create a table with data types and insert some data into the table.
+>- **"\d"** to display all the relations in the database.
 ```
 create table $table(courseID int,rollno int,coursename varchar(20));
 insert into $table values(1004,1,'java'),(1005,2,'sql'),(1005,3,'sql'),(1006,4,'linux'),(1004,5,'java'),(1007,9,'streamsets'),(1008,10,'kafka'),(1007,11,'streamsets');
@@ -211,7 +220,8 @@ INSERT 0 8
  public | student_course | table | postgres
 (1 row)
 ```
-- Fetch the data from the created table and print the data.
+<br></br>
+>- Fetch the data from the created table and print the data.
 ```
 select * from $table;
 EOF2
