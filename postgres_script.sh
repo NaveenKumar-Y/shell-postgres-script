@@ -16,17 +16,19 @@ gcloud auth activate-service-account tachyons-srv-acc@gcp-hum-tachyons.iam.gserv
 # copy postgres software from gcs bucket to current working directory
 gsutil cp gs://postgresql_software/postgresql-14.5.tar.gz ./
 
-# 
-apt install build-essential gcc-multilib zlib1g-dev libreadline-dev -y
-
-#
+# unpack the postgresql package
 tar -xzf postgresql-14.5.tar.gz
 
+
+# install neccessary packages for installation of postgres
+apt install build-essential gcc-multilib zlib1g-dev libreadline-dev -y
+
+# variables for postgres user and password
 psqlUser="postgres"
 psqlPassword="postgres"
 
 
-# changing to postgres directory and makinga 
+# changing to postgres directory 
 cd postgresql-14.5
 
 # create a directory to install postgres files and configure to that directory using prefix
@@ -42,7 +44,6 @@ make install
 sudo useradd -md /home/postgres/ -p $psqlPassword $psqlUser
 
 echo "created user $psqlUser"
-# sudo usermod --password postgres postgres
 
 # make a directory which acts as an database cluster and changed owner to postgres user with permissions
 mkdir -p /pgdatabase/data
@@ -54,6 +55,11 @@ ln -s /opt/PostgreSQL-14.5/bin/psql /usr/bin/psql
 # store password of user in a file
 echo $psqlPassword > /home/pSql_password.txt
 
+# read varialbes database name and table from the user
+echo "enter database name:"
+read database_name
+echo "enter table name:"
+read table
 
 # switch to postgres user and intialize database 
 # using psql commands create database and a table.
@@ -67,15 +73,15 @@ su $psqlUser <<EOF
 # to see status of the postgres server 
 netstat -apn |grep -i 5432
 
-echo "enter database name:"
-read database_name
-echo "enter table name:"
-read table
- 
+echo "database name is $database_name"
+echo "table name is $table"
+
 PGPASSWORD=$psqlPassword psql -U $psqlUser -p 5432 <<EOF2
 CREATE DATABASE $database_name;
+\c $database_name
 create table $table(courseID int,rollno int,coursename varchar(20));
 insert into $table values(1004,1,'java'),(1005,2,'sql'),(1005,3,'sql'),(1006,4,'linux'),(1004,5,'java'),(1007,9,'streamsets'),(1008,10,'kafka'),(1007,11,'streamsets');
+\d
 select * from $table;
 EOF2
 
